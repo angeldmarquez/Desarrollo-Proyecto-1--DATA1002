@@ -1,10 +1,6 @@
 import pandas as pd
-
-def cargar_datos (filepath):
-    """ Paso 1: Leer el archivo CSV. """
-    print("Cargando datos...")
-    df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
-    return df
+from tabulate import tabulate
+df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
 
 def limpieza_datos(df):
     """ Paso 2: En esta funcion limpiaremos los datos del dataframe, ya que nuestro trabajo 
@@ -65,7 +61,8 @@ def cada_variable(df):
         "Proporción de Vacíos en el Trabajo.": str(float(porcentajes[4])),
         "Proporción de Vacíos en la Salud.": str(float(porcentajes[5]))
     }
-    
-    return datos
+    filas = datos.items()
+
+    return tabulate(filas, headers=["Métrica", "Valor"], tablefmt="simple")
 
 print(cada_variable(df))
