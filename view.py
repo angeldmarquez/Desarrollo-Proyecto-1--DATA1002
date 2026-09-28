@@ -1,14 +1,5 @@
-# ==========================================
-# VISTA PRINCIPAL (view.py)
-# ==========================================
+import logic
 
-from logic import cargar_datos
-from logic import limpieza_datos
-from logic import evaluar_valores_nulos
-from logic import analisis_descriptivo
-from logic import analisis_exploratorio
-
-print("==================================================")
 print("PROYECTO 1: ANALISIS DE BIENESTAR EN BOGOTA")
 print("==================================================")
 
@@ -20,7 +11,7 @@ archivo = "Características y composición del hogar.csv"
 # ----------------------------------------------------
 print("")
 print("PASO 1: Cargando la base de datos...")
-df_original = cargar_datos(archivo)
+df_original = logic.cargar_datos(archivo)
 print("Datos cargados correctamente.")
 
 # ----------------------------------------------------
@@ -28,7 +19,7 @@ print("Datos cargados correctamente.")
 # ----------------------------------------------------
 print("")
 print("PASO 2: Aplicando filtros de edad y ciudad...")
-df_limpio = limpieza_datos(df_original)
+df_limpio = logic.limpieza_datos(df_original)
 print("Filtrado completado.")
 
 # ----------------------------------------------------
@@ -36,27 +27,28 @@ print("Filtrado completado.")
 # ----------------------------------------------------
 print("")
 print("PASO 3: Evaluando valores nulos y vacios...")
-diccionario_nulos = evaluar_valores_nulos(df_original)
+diccionario_nulos = logic.evaluar_valores_nulos(df_original)
 
-# Imprimir el diccionario paso a paso de forma muy sencilla
+print("Resultados de nulos encontrados:")
 for clave in diccionario_nulos:
     valor = diccionario_nulos[clave]
     print(clave, ":", valor)
 
 # ----------------------------------------------------
-# PASO 4: Análisis Descriptivo (Estadísticos y Gráficos)
+# PASO 4: Análisis Descriptivo
 # ----------------------------------------------------
 print("")
 print("PASO 4: Realizando analisis descriptivo y graficos...")
-resumen_estadistico = analisis_descriptivo(df_original)
+resumen_estadistico = logic.analisis_descriptivo(df_original)
+print("Tabla resumen estadistico:")
 print(resumen_estadistico)
 
 # ----------------------------------------------------
-# PASO 5: Análisis Exploratorio (Atípicos y Correlaciones)
+# PASO 5: Análisis Exploratorio (Valores atípicos y Correlaciones)
 # ----------------------------------------------------
 print("")
 print("PASO 5: Analizando valores atipicos y correlaciones...")
-analisis_exploratorio(df_original)
+logic.analisis_exploratorio(df_original)
 
 print("")
 print("==================================================")

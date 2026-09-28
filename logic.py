@@ -1,5 +1,6 @@
 import pandas as pd
 from tabulate import tabulate
+import matplotlib.pyplot as plt
 
 def cargar_datos (filepath):
     """ Paso 1: Leer el archivo CSV. """
@@ -81,8 +82,6 @@ def evaluar_valores_nulos (df):
     
     return tabulate(filas, headers=["Métrica", "Valor"], tablefmt="simple")
 
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 def analisis_descriptivo(df):
     """
@@ -94,16 +93,16 @@ def analisis_descriptivo(df):
     # Definimos directamente las variables existentes
     variables_existentes = ["P6040", "P1895", "P1896", "P1897", "P1898", "P1899", "P3175"]
     
-    print("\n--- RESUMEN ESTADÍSTICO (Media, Mediana, Mín, Máx, Desviación) ---")
+    print("RESUMEN ESTADÍSTICO (Media, Mediana, Mín, Máx, Desviación)")
     resumen = df_limpio[variables_existentes].describe()
     print(resumen)
     
-    # Generación y guardado de histogramas con KDE para análisis visual
-    for var in variables_existentes:
+    # Generación y guardado de histogramas.
+    for cada_variable in variables_existentes:
         plt.figure(figsize=(8, 5))
-        sns.histplot(df_limpio[var].dropna(), kde=True, bins=20, color="teal")
-        plt.title(f"Distribución de la variable {var}")
-        plt.xlabel(var)
+        sns.histplot(df_limpio[cada_variable].dropna(), kde=True, bins=20, color="teal")
+        plt.title(f"Distribución de la variable {cada_variable}")
+        plt.xlabel(cada_variable)
         plt.ylabel("Frecuencia")
         plt.grid(True, linestyle="--", alpha=0.5)
         plt.savefig(f"histograma_{var}.png", bbox_inches='tight')
