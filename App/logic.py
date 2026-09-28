@@ -38,7 +38,7 @@ def tratar_valores_especiales(df):
     """
     Tratamiento de valores atípicos / códigos de no respuesta (ej. 99, 98).
     Convierte los códigos de 'No sabe' o 'No responde' en NaN para las variables 
-    de bienestar, manteniendo intacto el puntaje 9 de la escala de satisfacción.
+    de bienestar.
     """
     df_limpio = limpieza_datos(df)
     variables_bienestar = ["P1895", "P1896", "P1897", "P1898", "P1899", "P3175"]
@@ -50,7 +50,10 @@ def tratar_valores_especiales(df):
     return df_limpio
 
 def evaluar_valores_nulos (df):
-    
+    """
+    Evalua y cuenta la cantidad de valores nulos o vacíos en las variables de bienestar,
+    calculando sus respectivas proporciones porcentuales y retornando una tabla formateada.
+    """
     new_frame = tratar_valores_especiales(df)
     
     nulos_satisfaccion = new_frame["P1895"].isnull().sum()
@@ -62,14 +65,17 @@ def evaluar_valores_nulos (df):
     
     total_registros = len(new_frame)
     
-    porcentajes = [
-        (nulos_satisfaccion * 100) / total_registros if total_registros > 0 else 0,
-        (nulos_ingreso * 100) / total_registros if total_registros > 0 else 0,
-        (nulos_salud * 100) / total_registros if total_registros > 0 else 0,
-        (nulos_seguridad * 100) / total_registros if total_registros > 0 else 0,
-        (nulos_trabajo * 100) / total_registros if total_registros > 0 else 0,
-        (nulos_freetime * 100) / total_registros if total_registros > 0 else 0,
-    ]
+    if total_registros > 0:
+        porcentajes = [
+            (nulos_satisfaccion * 100) / total_registros,
+            (nulos_ingreso * 100) / total_registros,
+            (nulos_salud * 100) / total_registros,
+            (nulos_seguridad * 100) / total_registros,
+            (nulos_trabajo * 100) / total_registros,
+            (nulos_freetime * 100) / total_registros,
+        ]
+    else:
+        porcentajes = [0, 0, 0, 0, 0, 0]
     
     datos = {
         "Datos Vacíos de Satisfacción General.": str(int(nulos_satisfaccion)),
@@ -119,8 +125,13 @@ def analisis_descriptivo(df):
 
 
 def analisis_exploratorio (df):
+    
+    """
+    Realiza el análisis exploratorio determinando valores mínimos, máximos 
+    y calculando la matriz de correlación entre las variables de bienestar.
+    """
+
     df_limpio = tratar_valores_especiales(df)
-    # unificado a las mismas 7 variables para mantener consistencia en todo el análisis
     variables_interes = ["P6040", "P1895", "P1896", "P1897", "P1898", "P1899", "P3175"]
     
     print("VALORES MÍNIMOS Y MÁXIMOS (Para detectar que valores atípicos tenemos o codigos de error")
