@@ -7,6 +7,8 @@ def cargar_datos (filepath):
     df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
     return df
 
+df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
+
 def limpieza_datos(df):
     """ Paso 2: En esta funcion limpiaremos los datos del dataframe, ya que nuestro trabajo 
     esta orientado a personas de 18 o mas y que hayan vivido en Bogota en los ultimos 12 meses.
@@ -67,8 +69,8 @@ def cada_variable(df):
         "Proporción de Vacíos en la Salud.": str(float(porcentajes[5]))
     }
     
-    filas = list(datos.items())
+    filas = datos.items()
     
-    return tabulate(filas, headers=["Variable", "Valor"], tablefmt="grid", floatfmt=".1f")
+    return tabulate(filas, headers=["Métrica", "Valor"], tablefmt="simple")
 
 print(cada_variable(df))
