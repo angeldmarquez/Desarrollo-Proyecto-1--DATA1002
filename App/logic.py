@@ -45,7 +45,7 @@ def tratar_valores_especiales(df):
     
     for var in variables_bienestar:
         if var in df_limpio.columns:
-            df_limpio[var] = df_limpio[var].replace([99, 98], pd.NA)
+            df_limpio[var] = df_limpio[var].mask(df_limpio[var].isin([99, 98]))
             
     return df_limpio
 
