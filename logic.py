@@ -3,7 +3,7 @@ import pandas as pd
 def cargar_datos (filepath):
     """ Paso 1: Leer el archivo CSV. """
     print("Cargando datos...")
-    df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
+    df = pd.read_csv(filepath, sep= ";")
     return df
 
 def limpieza_datos(df):
@@ -32,8 +32,13 @@ def limpieza_datos(df):
 
     return df_bogota
 
-def cada_variable(df):
+def evaluar_valores_nulos (df):
+    
+    # Obtenemos el DataFrame limpio llamando a la función anterior
+    
     new_frame = limpieza_datos(df)
+    
+    # Conteo de valores nulos (.isnull().sum()) para cada variable de bienestar
     
     nulos_satisfaccion = new_frame["P1895"].isnull().sum()
     nulos_ingreso = new_frame["P1896"].isnull().sum()
@@ -41,6 +46,8 @@ def cada_variable(df):
     nulos_freetime = new_frame["P3175"].isnull().sum()
     nulos_trabajo = new_frame["P1899"].isnull().sum()
     nulos_salud = new_frame["P1897"].isnull().sum()
+    
+    # Cálculo de los porcentajes de valores vacíos respecto al total de registros limpios
     
     porcentajes = [
         (nulos_satisfaccion*100)/len(new_frame["P1895"]),
@@ -51,6 +58,7 @@ def cada_variable(df):
         (nulos_salud*100)/len(new_frame["P1897"]),
     ]
     
+    # Diccionario estructurado que almacena de forma organizada los conteos y proporciones
     datos = {
         "Datos Vacíos de Satisfacción General.": str(int(nulos_satisfaccion)),
         "Datos Vacíos de Ingreso.": str(int(nulos_ingreso)),
@@ -68,4 +76,44 @@ def cada_variable(df):
     
     return datos
 
-print(cada_variable(df))
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def analisis_descriptivo(df):
+    """
+    Calcula estadísticos descriptivos y genera visualizaciones para las variables 
+    de bienestar y demográficas de la población mayor de 18 años en Bogotá.
+    """
+    df_limpio = limpieza_datos(df)
+    
+    # Definimos directamente las variables existentes
+    variables_existentes = ["P6040", "P1895", "P1896", "P1897", "P1898", "P1899", "P3175"]
+    
+    print("\n--- RESUMEN ESTADÍSTICO (Media, Mediana, Mín, Máx, Desviación) ---")
+    resumen = df_limpio[variables_existentes].describe()
+    print(resumen)
+    
+    # Generación y guardado de histogramas con KDE para análisis visual
+    for var in variables_existentes:
+        plt.figure(figsize=(8, 5))
+        sns.histplot(df_limpio[var].dropna(), kde=True, bins=20, color="teal")
+        plt.title(f"Distribución de la variable {var}")
+        plt.xlabel(var)
+        plt.ylabel("Frecuencia")
+        plt.grid(True, linestyle="--", alpha=0.5)
+        plt.savefig(f"histograma_{var}.png", bbox_inches='tight')
+        plt.close()
+        
+    print("Gráficos de distribución generados.")
+    return resumen
+
+
+def analisis_exploratorio (df):
+    df_limpio = limpieza_datos(df)
+    variables_interes = ["P6040", "P1895", "P1896", "P1897", "P1898"]
+    
+    print("VALORES MÍNIMOS Y MÁXIMOS (Para detectar que valores atípicos tenemos o codigos de error")
+    print(df_limpio[variables_interes].agg(['min', 'max']))
+    
+    print("MATRIZ DE CORRELACIÓN (Para ver posibles asociaciones de bienestar)")
+    print(df_limpio[["P1895", "P1896", "P1897", "P1898"]].corr())
