@@ -120,7 +120,8 @@ def analisis_descriptivo(df):
 
 def analisis_exploratorio (df):
     df_limpio = tratar_valores_especiales(df)
-    variables_interes = ["P6040", "P1895", "P1896", "P1897", "P1898"]
+    # unificado a las mismas 7 variables para mantener consistencia en todo el análisis
+    variables_interes = ["P6040", "P1895", "P1896", "P1897", "P1898", "P1899", "P3175"]
     
     print("VALORES MÍNIMOS Y MÁXIMOS (Para detectar que valores atípicos tenemos o codigos de error")
     print(df_limpio[variables_interes].agg(['min', 'max']))
