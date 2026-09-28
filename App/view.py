@@ -1,4 +1,4 @@
-import logic
+import App.logic as logic
 
 print("PROYECTO 1: ANALISIS DE BIENESTAR EN BOGOTA")
 print("==================================================")
