@@ -2,9 +2,13 @@ import App.logic as logic
 
 print("PROYECTO 1: ANALISIS DE BIENESTAR EN BOGOTA")
 print("==================================================")
+print("Nuestra pregunta analitica es:")
+print(" En una escala de 0 a 10, ¿qué tan satisfechas se sienten las personas mayores de 18 años en Bogotá")
+print(" con respecto a su salud, ingreso, seguridad, trabajo y tiempo libre, y cuáles de estos aspectos") 
+print(" tienen mayor peso sobre su satisfacción general con la vida?")
 
 # Ruta del archivo CSV
-archivo = "Características y composición del hogar.csv"
+archivo = "Data/Características y composición del hogar.csv"
 
 # ----------------------------------------------------
 # PASO 1: Carga de datos
@@ -30,9 +34,7 @@ print("PASO 3: Evaluando valores nulos y vacios...")
 diccionario_nulos = logic.evaluar_valores_nulos(df_original)
 
 print("Resultados de nulos encontrados:")
-for clave in diccionario_nulos:
-    valor = diccionario_nulos[clave]
-    print(clave, ":", valor)
+print(diccionario_nulos)
 
 # ----------------------------------------------------
 # PASO 4: Análisis Descriptivo

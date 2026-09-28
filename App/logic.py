@@ -8,8 +8,6 @@ def cargar_datos (filepath):
     df = pd.read_csv(filepath, sep= ";")
     return df
 
-df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
-
 def limpieza_datos(df):
     """ Paso 2: En esta funcion limpiaremos los datos del dataframe, ya que nuestro trabajo 
     esta orientado a personas de 18 o mas y que hayan vivido en Bogota en los ultimos 12 meses.
@@ -100,12 +98,12 @@ def analisis_descriptivo(df):
     # Generación y guardado de histogramas.
     for cada_variable in variables_existentes:
         plt.figure(figsize=(8, 5))
-        sns.histplot(df_limpio[cada_variable].dropna(), kde=True, bins=20, color="teal")
+        plt.hist(df_limpio[cada_variable].dropna(), bins=20, color="teal")
         plt.title(f"Distribución de la variable {cada_variable}")
         plt.xlabel(cada_variable)
         plt.ylabel("Frecuencia")
         plt.grid(True, linestyle="--", alpha=0.5)
-        plt.savefig(f"histograma_{var}.png", bbox_inches='tight')
+        plt.savefig(f"histograma_{cada_variable}.png", bbox_inches='tight')
         plt.close()
         
     print("Gráficos de distribución generados.")
