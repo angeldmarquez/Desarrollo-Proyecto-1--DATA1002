@@ -1,5 +1,7 @@
 import pandas as pd
 from tabulate import tabulate
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def cargar_datos (filepath):
     """ Paso 1: Leer el archivo CSV. """
@@ -81,8 +83,6 @@ def evaluar_valores_nulos (df):
     
     return tabulate(filas, headers=["Métrica", "Valor"], tablefmt="simple")
 
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 def analisis_descriptivo(df):
     """
