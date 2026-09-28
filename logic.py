@@ -1,10 +1,13 @@
 import pandas as pd
+from tabulate import tabulate
 
 def cargar_datos (filepath):
     """ Paso 1: Leer el archivo CSV. """
     print("Cargando datos...")
     df = pd.read_csv(filepath, sep= ";")
     return df
+
+df = pd.read_csv("Características y composición del hogar.csv", sep= ";")
 
 def limpieza_datos(df):
     """ Paso 2: En esta funcion limpiaremos los datos del dataframe, ya que nuestro trabajo 
@@ -74,7 +77,9 @@ def evaluar_valores_nulos (df):
         "Proporción de Vacíos en la Salud.": str(float(porcentajes[5]))
     }
     
-    return datos
+    filas = datos.items()
+    
+    return tabulate(filas, headers=["Métrica", "Valor"], tablefmt="simple")
 
 import matplotlib.pyplot as plt
 import seaborn as sns
